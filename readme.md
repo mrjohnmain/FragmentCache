@@ -1,8 +1,7 @@
-# Matryoshka
+# Fragment Cache
 
-Matryoshka is a package for Laravel that provides Russian-Doll caching for your view logic.
-
-> Want to learn how this exact package was made from scratch? [See Laracasts.com](https://laracasts.com/series/russian-doll-caching-in-laravel).
+Fragment Cache is a package for Laravel that provides Russian-Doll caching for your view logic.
+This is an extended and upgraded version of Jeffery Way's Russian Doll package (https://github.com/laracasts/matryoshka) made to work on Laravel 5.6 and above.
 
 ## Installation
 
@@ -11,7 +10,7 @@ Matryoshka is a package for Laravel that provides Russian-Doll caching for your 
 From the command line, run:
 
 ```
-composer require laracasts/matryoshka
+composer require mrjohnmain/fragmentcache
 ```
 
 ### Step 2: Service Provider
@@ -19,7 +18,7 @@ composer require laracasts/matryoshka
 For your Laravel app, open `config/app.php` and, within the `providers` array, append:
 
 ```
-Laracasts\Matryoshka\MatryoshkaServiceProvider::class
+MrJohnMain\FragmentCache\FragmentCacheServiceProvider::class
 ```
 
 This will bootstrap the package into Laravel.
@@ -34,7 +33,7 @@ Check your `.env` file, and ensure that your `CACHE_DRIVER` choice accomodates t
 CACHE_DRIVER=memcached
 ```
 
-> Have a look at [Laravel's cache configuration documentation](https://laravel.com/docs/5.2/cache#configuration), if you need any help.
+> Have a look at [Laravel's cache configuration documentation](https://laravel.com/docs/5.6/cache#configuration), if you need any help.
 
 ## Usage
 
@@ -77,10 +76,10 @@ Consider the following fragment:
 @endcache
 ```
 
-In this example, we're passing the `$post` object, itself, to the `@cache` directive - rather than a string. The package will then look for a `getCacheKey()` method on the model. We've already done that work for you; just have your Eloquent model use the `Laracasts\Matryoshka\Cacheable` trait, like so:
+In this example, we're passing the `$post` object, itself, to the `@cache` directive - rather than a string. The package will then look for a `getCacheKey()` method on the model. We've already done that work for you; just have your Eloquent model use the `Laracasts\Fragment Cache\Cacheable` trait, like so:
 
 ```php
-use Laracasts\Matryoshka\Cacheable;
+use Laracasts\Fragment Cache\Cacheable;
 
 class Post extends Eloquent
 {
@@ -111,7 +110,7 @@ Luckily, Laravel offers this "touch" functionality out of the box. Consider a `N
 
 namespace App;
 
-use Laracasts\Matryoshka\Cacheable;
+use Laracasts\FragmentCache\Cacheable;
 use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
@@ -185,7 +184,7 @@ Yes. Let's say you have:
 @endcache
 ```
 
-Behind the scenes, we'll look for a `getCacheKey` method on the model. Now, as mentioned above, you can use the `Laracasts\Matryoshka\Cacheable` trait to instantly import this functionality. Alternatively, you may pass a second argument to the `@cache` directive, like this:
+Behind the scenes, we'll look for a `getCacheKey` method on the model. Now, as mentioned above, you can use the `Laracasts\FragmentCache\Cacheable` trait to instantly import this functionality. Alternatively, you may pass a second argument to the `@cache` directive, like this:
 
 ```html
 @cache($post, 'my-custom-key')
@@ -195,11 +194,3 @@ Behind the scenes, we'll look for a `getCacheKey` method on the model. Now, as m
 
 This instructs the package to use `my-custom-key` for the cache instead. This can be useful for pagination and other related tasks.
 
-**2. Where can I learn more about this approach to caching?**
-
-Give these two articles a read:
-
-- https://signalvnoise.com/posts/3112-how-basecamp-next-got-to-be-so-damn-fast-without-using-much-client-side-ui
-- https://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works
-
-And, if you enjoy Laracasts, [watch the creation of this package from scratch here.](https://laracasts.com/series/russian-doll-caching-in-laravel)
