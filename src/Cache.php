@@ -34,7 +34,7 @@ class Cache
         $key = $this->normalizeCacheKey($key);
 
         return $this->cache
-            ->tags('views')
+            ->tags('fragments')
             ->rememberForever($key, function () use ($fragment) {
                 return $fragment;
             });
@@ -50,7 +50,7 @@ class Cache
         $key = $this->normalizeCacheKey($key);
 
         return $this->cache
-            ->tags('views')
+            ->tags('fragments')
             ->has($key);
     }
 

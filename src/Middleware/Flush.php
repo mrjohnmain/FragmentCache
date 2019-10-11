@@ -1,6 +1,6 @@
 <?php
 
-namespace MrJohnMain\FragmentCache;
+namespace MrJohnMain\FragmentCache\Middleware;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -14,7 +14,7 @@ class Flush
      */
     public function handle($request, $next)
     {
-        Cache::tags('views')->flush();
+        Cache::tags('fragments')->flush();
 
         return $next($request);
     }

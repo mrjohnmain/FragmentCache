@@ -5,7 +5,8 @@ namespace MrJohnMain\FragmentCache;
 trait Cacheable
 {
     /**
-     * Calculate a unique cache key for the model instance.
+     * Calculate a unique cache key for the model instance
+     * @return string
      */
     public function getCacheKey()
     {

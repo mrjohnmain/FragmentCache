@@ -2,9 +2,9 @@
 
 namespace MrJohnMain\FragmentCache;
 
-use Blade;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\ServiceProvider;
 
 class FragmentCacheServiceProvider extends ServiceProvider
 {
@@ -15,12 +15,16 @@ class FragmentCacheServiceProvider extends ServiceProvider
      */
     public function boot(Kernel $kernel)
     {
+        if ($this->app->isLocal()) {
+            $kernel->pushMiddleware('MrJohnMain\FragmentCache\Middleware\Flush');
+        }
+
         Blade::directive('cache', function ($expression) {
-            return "things";
+            return "<?php if (! app('MrJohnMain\FragmentCache\Directive')->setUp({$expression})) : ?>";
         });
 
         Blade::directive('endcache', function () {
-            return "<?php endif; echo app('MrJohnMain\FragmentCache\BladeDirective')->tearDown() ?>";
+            return "<?php endif; echo app('MrJohnMain\FragmentCache\Directive')->tearDown() ?>";
         });
     }
 
@@ -29,7 +33,7 @@ class FragmentCacheServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(BladeDirective::class);
+        $this->app->singleton(Directive::class);
     }
 }
 

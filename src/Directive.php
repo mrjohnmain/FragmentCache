@@ -4,12 +4,12 @@ namespace MrJohnMain\FragmentCache;
 
 use Exception;
 
-class BladeDirective
+class Directive
 {
     /**
      * The cache instance.
      *
-     * @var RussianCaching
+     * @var Cach
      */
     protected $cache;
 
@@ -23,9 +23,9 @@ class BladeDirective
     /**
      * Create a new instance.
      *
-     * @param RussianCaching $cache
+     * @param Cache $cache
      */
-    public function __construct(RussianCaching $cache)
+    public function __construct(Cache $cache)
     {
         $this->cache = $cache;
     }
