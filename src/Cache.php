@@ -67,12 +67,5 @@ class Cache
 
         return $key;
     }
-
-    /**
-     * Flush the cache
-     */
-    public static function flush() {
-        \Illuminate\Support\Facades\Cache::tags('fragments')->flush();
-    }
 }
 
