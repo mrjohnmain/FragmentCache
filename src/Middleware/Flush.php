@@ -14,7 +14,7 @@ class Flush
      */
     public function handle($request, $next)
     {
-        Cache::tags('fragments')->flush();
+        Cache::flush();
 
         return $next($request);
     }
