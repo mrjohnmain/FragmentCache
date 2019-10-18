@@ -15,12 +15,8 @@ class FragmentCacheServiceProvider extends ServiceProvider
      */
     public function boot(Kernel $kernel)
     {
-        if ($this->app->isLocal()) {
-            $kernel->pushMiddleware('MrJohnMain\FragmentCache\Middleware\Flush');
-        }
-
-        Blade::directive('cache', function ($expression) {
-            return "<?php if (! app('MrJohnMain\FragmentCache\Directive')->setUp({$expression})) : ?>";
+        Blade::directive('cache', function ($key_data) {
+            return "<?php if (! app('MrJohnMain\FragmentCache\Directive')->setUp({$key_data})) : ?>";
         });
 
         Blade::directive('endcache', function () {

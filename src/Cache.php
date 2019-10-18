@@ -31,8 +31,6 @@ class Cache
      */
     public function put($key, $fragment)
     {
-        $key = $this->normalizeCacheKey($key);
-
         return $this->cache
             ->rememberForever($key, function () use ($fragment) {
                 return $fragment;
@@ -46,24 +44,17 @@ class Cache
      */
     public function has($key)
     {
-        $key = $this->normalizeCacheKey($key);
-
-        return $this->cache
-            ->has($key);
+        return $this->cache->has($key);
     }
 
     /**
-     * Normalize the cache key.
+     * Clear the key from the cache
      *
      * @param mixed $key
      */
-    protected function normalizeCacheKey($key)
+    public function forget($key)
     {
-        if (is_object($key) && method_exists($key, 'getCacheKey')) {
-            return $key->getCacheKey();
-        }
-
-        return $key;
+        return $this->cache->forget($key);
     }
 }
 
