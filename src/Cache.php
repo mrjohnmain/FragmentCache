@@ -48,6 +48,16 @@ class Cache
     }
 
     /**
+     * Get from the cache
+     *
+     * @param mixed $key
+     */
+    public function get($key)
+    {
+        return $this->cache->get($key);
+    }
+
+    /**
      * Clear the key from the cache
      *
      * @param mixed $key

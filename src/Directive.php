@@ -20,6 +20,14 @@ class Directive
      */
     protected $key;
 
+
+    /**
+     * Has cache data
+     *
+     * @param string $key
+     */
+    protected $has_cache = false;
+
     /**
      * Create a new instance.
      *
@@ -46,16 +54,23 @@ class Directive
             $force = false;
         }
 
-        ob_start();
-
         $this->key = $key;
 
         if($force) {
             $this->cache->forget($key);
-            return false;
+            $this->has_cache = false;
+        }
+        else {
+            $this->has_cache = $this->cache->has($key);
         }
 
-        return $this->cache->has($key);
+        if($this->has_cache) {
+            //Nothing to buffer if we already have it
+            return true;
+        }
+
+        ob_start();
+        return false;
     }
 
     /**
@@ -63,6 +78,11 @@ class Directive
      */
     public function tearDown()
     {
+        if($this->has_cache) {
+            //Return it directly
+            return $this->cache->get($this->key);
+        }
+
         return $this->cache->put(
             $this->key, ob_get_clean()
         );
