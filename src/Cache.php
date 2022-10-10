@@ -31,7 +31,9 @@ class Cache
      */
     public function put($key, $fragment)
     {
-        return $this->cache->forever($key, $fragment);
+        $this->cache->forever($key, $fragment);
+
+        return $fragment;
     }
 
     /**
