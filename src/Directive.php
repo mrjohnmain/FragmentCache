@@ -39,9 +39,6 @@ class Directive
     public function __construct(Cache $cache)
     {
         $this->cache = $cache;
-        $this->log = new LogCacheFragment;
-        $this->log->user_id = \Auth::id();
-        $this->start_time = microtime(true);
     }
 
     /**
@@ -51,6 +48,10 @@ class Directive
      */
     public function setUp($key_data)
     {
+        $this->log = new LogCacheFragment;
+        $this->log->user_id = \Auth::id();
+        $this->start_time = microtime(true);
+
         if($data = json_decode($key_data)) {
             $key = $data->key;
             $force = $data->force;
