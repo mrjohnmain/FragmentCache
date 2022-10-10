@@ -31,10 +31,7 @@ class Cache
      */
     public function put($key, $fragment)
     {
-        return $this->cache
-            ->rememberForever($key, function () use ($fragment) {
-                return $fragment;
-            });
+        return $this->cache->forever($key, $fragment);
     }
 
     /**

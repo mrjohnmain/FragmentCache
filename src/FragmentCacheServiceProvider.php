@@ -22,6 +22,11 @@ class FragmentCacheServiceProvider extends ServiceProvider
         Blade::directive('endcache', function () {
             return "<?php endif; echo app('MrJohnMain\FragmentCache\Directive')->tearDown() ?>";
         });
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/' => database_path('migrations')
+        ], 'migrations');
+
     }
 
     /**

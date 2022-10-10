@@ -20,6 +20,9 @@ class Directive
      */
     protected $key;
 
+    protected $log;
+
+    protected $start_time;
 
     /**
      * Has cache data
@@ -36,6 +39,9 @@ class Directive
     public function __construct(Cache $cache)
     {
         $this->cache = $cache;
+        $this->log = new LogCacheFragment;
+        $this->log->user_id = \Auth::id();
+        $this->start_time = microtime(true);
     }
 
     /**
@@ -56,12 +62,20 @@ class Directive
 
         $this->key = $key;
 
+        $this->log->key = $key;
+
         if($force) {
             $this->cache->forget($key);
             $this->has_cache = false;
+            $this->log->status = 2;
+        }
+        elseif($this->cache->has($key)) {
+            $this->has_cache =  true;
+            $this->log->status = 1;
         }
         else {
-            $this->has_cache = $this->cache->has($key);
+            $this->has_cache = false;
+            $this->log->status = 0;
         }
 
         if($this->has_cache) {
@@ -80,11 +94,17 @@ class Directive
     {
         if($this->has_cache) {
             //Return it directly
-            return $this->cache->get($this->key);
+            $data = $this->cache->get($this->key);
+        }
+        else {
+            $data = $this->cache->put(
+                $this->key, ob_get_clean()
+            );
         }
 
-        return $this->cache->put(
-            $this->key, ob_get_clean()
-        );
+        $this->log->timing = microtime(true) - $this->start_time;
+        $this->log->save();
+
+        return $data;
     }
 }
