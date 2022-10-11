@@ -103,7 +103,7 @@ class Directive
             );
         }
 
-        $this->log->timing = microtime(true) - $this->start_time;
+        $this->log->timing = (microtime(true) - $this->start_time) * 1000;
         $this->log->save();
 
         return $data;
