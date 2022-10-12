@@ -10,4 +10,6 @@ class LogCacheFragment extends \Eloquent
      * @var Cach
      */
     protected $table = 'log_cache_fragments';
+
+    protected $fillable = ['user_id', 'key'];
 }

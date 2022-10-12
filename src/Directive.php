@@ -48,9 +48,6 @@ class Directive
      */
     public function setUp($key_data)
     {
-        $this->log = new LogCacheFragment;
-        $this->log->user_id = \Auth::id();
-        $this->start_time = microtime(true);
 
         if($data = json_decode($key_data)) {
             $key = $data->key;
@@ -63,7 +60,9 @@ class Directive
 
         $this->key = $key;
 
-        $this->log->key = $key;
+        $this->log = LogCacheFragment::create(['user_id' => \Auth::id(), 'key' => $key]);
+
+        $this->start_time = microtime(true);
 
         if($force) {
             $this->cache->forget($key);
